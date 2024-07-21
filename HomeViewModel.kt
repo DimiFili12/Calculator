@@ -51,9 +51,9 @@ class HomeViewModel(
         it.keys.toList()
     }
         .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
+            scope =  viewModelScope,
+            started =  SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
         )
 
     private val initialChosenCurrencies: Map<Int, String> = mapOf(

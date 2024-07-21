@@ -38,8 +38,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.calculator.models.MyButton
 import com.example.calculator.models.MyButtons
 import kotlinx.coroutines.flow.StateFlow
@@ -60,8 +62,8 @@ fun HomeScreen(
             )
         }
         is CalculatorUiState.Success -> {
-            val currencies by state.currencies.collectAsState()
-            val chosenCurrencies by state.chosenCurrencies.collectAsState()
+            val currencies by state.currencies.collectAsStateWithLifecycle()
+            val chosenCurrencies by state.chosenCurrencies.collectAsStateWithLifecycle()
             val buttons = MyButtons.getButtons(viewModel, state, chosenCurrencies)
 
             MainScreen(
@@ -111,7 +113,7 @@ fun MainScreen(
                 .background(MaterialTheme.colorScheme.surface)
         ) {
             calculationResults.forEachIndexed() { index, calculationResult ->
-                val result by calculationResult.collectAsState()
+                val result by calculationResult.collectAsStateWithLifecycle()
                 ResultRow(
                     id = index,
                     result = result,
@@ -202,7 +204,8 @@ fun ResultRow(
                     Text(
                         text = result,
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        modifier = Modifier.padding(horizontal = 16.dp)//,
+                        //overflow = TextOverflow.Ellipsis
                     )
                 }
             }
